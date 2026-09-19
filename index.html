@@ -129,6 +129,55 @@
     margin: 14px 0;
     font-size: 1.02rem;
   }
+  .rubric-box {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 14px 16px;
+    margin: 14px 0;
+  }
+  .rubric-box h4 {
+    margin: 0 0 6px;
+    font-size: 0.95rem;
+  }
+  .rubric-box ul {
+    margin: 6px 0 10px;
+    padding-left: 20px;
+  }
+  .rubric-example {
+    font-size: 0.88rem;
+    color: var(--muted);
+    font-style: italic;
+    margin: 6px 0 0;
+  }
+  .tension-note {
+    font-size: 0.92rem;
+    background: #fbf3e6;
+    border: 1px dashed #c9a227;
+    border-radius: 4px;
+    padding: 10px 12px;
+    margin: 10px 0 0;
+  }
+  .scale-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin: 12px 0 0;
+  }
+  @media (max-width: 560px) {
+    .scale-grid { grid-template-columns: 1fr; }
+  }
+  .scale-item {
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 10px 12px;
+    background: #fff;
+    font-size: 0.9rem;
+  }
+  .scale-item strong {
+    display: block;
+    margin-bottom: 4px;
+  }
   .instruction {
     font-style: italic;
     color: var(--muted);
@@ -215,6 +264,10 @@
     border: 1px solid var(--line);
   }
   .reveal-content[hidden] { display: none; }
+  .reveal-content:focus-visible {
+    outline: 3px solid var(--focus);
+    outline-offset: 3px;
+  }
   @keyframes reveal-in {
     from { opacity: 0; transform: translateY(0.5rem); }
     to { opacity: 1; transform: none; }
@@ -367,9 +420,10 @@
   </div>
 
   <h3 id="form1-heading">Form 1 — Primary Impairments</h3>
+  <p class="instruction">Scroll sideways on a narrow screen if needed.</p>
   <div class="table-scroll" role="region" aria-labelledby="form1-heading" tabindex="0">
     <table>
-      <caption>Scroll sideways on a narrow screen if needed.</caption>
+      <caption>Primary impairments recorded in Form 1</caption>
       <tr><th scope="col">#</th><th scope="col">Impairment</th><th scope="col">Region / Laterality</th><th scope="col">Measurement</th></tr>
       <tr><td>1</td><td>Decreased knee flexion AROM</td><td>R knee</td><td>85° (goal 110°+)</td></tr>
       <tr><td>2</td><td>Decreased quadriceps strength</td><td>R knee</td><td>3/5 MMT</td></tr>
@@ -378,10 +432,35 @@
     </table>
   </div>
 
-  <h2>Score This — Progression &amp; Regression Criteria</h2>
-  <p class="instruction">Reminder from Segment 1: 2 = Achieved, 1 = Almost There, 0 = Missing
-  Something. Score this section against that scale, on your own, before revealing anything
-  below.</p>
+  <h2 id="rubric-heading">Score This — Progression &amp; Regression Criteria</h2>
+
+  <div class="rubric-box" aria-labelledby="rubric-heading">
+    <h3>The rubric, exactly as written in the assignment</h3>
+    <p>"Correctly identifies specific, measurable criteria from objective or subjective findings
+    that would support progression or regression. Criteria are linked to patient goals and
+    targeted impairments."</p>
+    <p class="rubric-example">The assignment's own worked example: "shoulder flexion → progress
+    to Exercise #2 when patient can safely reach dishes in cupboard → regress to AROM if pain
+    exceeds 7/10, 24 hours post-exercise."</p>
+
+    <div class="tension-note">
+      The written criterion names goals and impairments. Its worked example also names a
+      specific exercise. Whether that example sets a binding standard — or is just one way to
+      satisfy the written criterion — is exactly what you and your table will need to decide.
+    </div>
+
+    <div class="scale-grid">
+      <div class="scale-item"><strong>2 — Achieved</strong>Fully meets the written criterion above.</div>
+      <div class="scale-item"><strong>1 — Almost There</strong>Partly meets the written criterion above.</div>
+      <div class="scale-item"><strong>0 — Missing Something</strong>Does not yet meet the written criterion above.</div>
+    </div>
+    <p class="rubric-example">The assignment supplies the criterion for an achieved score. The
+    labels above are the scale used throughout this course; how to weigh the worked example is
+    left to you.</p>
+  </div>
+
+  <p class="instruction">Score the passage below against that rubric, on your own, before
+  revealing anything.</p>
   <div class="score-passage">
     <p><strong>Progress when:</strong> knee flexion reaches 110°, quadriceps strength reaches
     4/5 MMT, the patient ambulates 100 feet without an antalgic gait, and pain during a
@@ -414,10 +493,10 @@
             aria-labelledby="sonnetLabel">
     <div class="rater-label" id="sonnetLabel">Rater 1 · rubric only, no memory of prior submissions</div>
     <div class="score-pill">Score: 2 / 2</div>
-    <div class="verbatim-label">Actual AI rationale, shown verbatim</div>
-    <blockquote class="rationale">Progression criteria are specific and measurable...
-    Regression criteria are equally specific and clinically appropriate... Criteria are clearly
-    linked to the targeted impairments from Form 1.</blockquote>
+    <div class="verbatim-label">Verbatim excerpt from the AI's actual rationale</div>
+    <blockquote class="rationale">Progression criteria are specific and measurable&hellip;
+    Regression criteria are equally specific and clinically appropriate&hellip; Criteria are
+    clearly linked to the targeted impairments from Form 1.</blockquote>
     <p class="instruction">Discuss at your table. Where do you land, and why? Reveal Rater 2
     when your table is ready.</p>
   </section>
@@ -438,11 +517,11 @@
     <p>This rater applied a rule negotiated on an earlier submission, requiring every criterion
     to be linked to a specific exercise — not just to an impairment.</p>
 
-    <div class="verbatim-label">Actual AI rationale, shown verbatim</div>
+    <div class="verbatim-label">Verbatim excerpt from the AI's actual rationale</div>
     <blockquote class="rationale">The criteria are presented as a consolidated list — all
     progression criteria together, then all regression criteria together. There is no
     exercise-specific linkage. Per the c9-exercise-specific-linkage.md decision:
-    consolidated/undifferentiated list = 1 ceiling, regardless of criteria quality... Per
+    consolidated/undifferentiated list = 1 ceiling, regardless of criteria quality&hellip; Per
     calibration: strong criteria + consolidated format = 1 (format rule is binding).</blockquote>
 
     <div class="rule-box">
@@ -479,9 +558,10 @@ The stateless rater begins each submission without the prior decision.
 
   <div class="footnote">
     The case above was constructed for this session; no real student submissions appear here.
-    The AI rationales shown are verbatim outputs generated from that case, unedited. Both
-    raters ran on the same model, the same rubric, and the same case text — the only
-    controlled difference is whether the rater holds a rule negotiated on a prior submission.
+    The AI rationale excerpts reproduce the original wording without edits; ellipses mark text
+    omitted for length. Both raters ran on the same model, the same rubric, and the same case
+    text — the only controlled difference is whether the rater holds a rule negotiated on a
+    prior submission.
   </div>
 
 </div>
@@ -518,7 +598,9 @@ The stateless rater begins each submission without the prior decision.
   }
 
   function revealSonnet() {
-    revealBox('sonnetBox', 'btnSonnet', 3);
+    // Reading/discussing Rater 1 is still part of Step 2 ("compare Rater 1"),
+    // so the step indicator does not advance here.
+    revealBox('sonnetBox', 'btnSonnet', 2);
     var atlasBtn = document.getElementById('btnAtlas');
     atlasBtn.disabled = false;
     document.getElementById('atlasHint').textContent =
@@ -526,8 +608,14 @@ The stateless rater begins each submission without the prior decision.
   }
 
   function revealAtlas() {
-    revealBox('atlasBox', 'btnAtlas', 4);
+    // Reading/discussing Rater 2 is Step 3; Step 4 begins once attendees
+    // reach the "your course" section, handled by the textarea focus listener below.
+    revealBox('atlasBox', 'btnAtlas', 3);
   }
+
+  document.getElementById('courseCriterion').addEventListener('focus', function () {
+    setStep(4);
+  });
 </script>
 
 </body>
