@@ -13,6 +13,7 @@
     --accent2: #2f5233;
     --muted: #6b6b6b;
     --highlight: #fff8e1;
+    --focus: #2f6fbd;
   }
   * { box-sizing: border-box; }
   body {
@@ -31,7 +32,7 @@
   header.page-head {
     border-bottom: 3px solid var(--ink);
     padding-bottom: 12px;
-    margin-bottom: 24px;
+    margin-bottom: 16px;
   }
   header.page-head h1 {
     font-size: 1.4rem;
@@ -42,6 +43,33 @@
     color: var(--muted);
     font-size: 0.95rem;
   }
+
+  /* Step indicator */
+  .steps {
+    display: flex;
+    gap: 6px;
+    list-style: none;
+    margin: 0 0 28px;
+    padding: 0;
+    font-size: 0.78rem;
+    color: var(--muted);
+  }
+  .steps li {
+    flex: 1;
+    text-align: center;
+    padding: 6px 4px;
+    border-bottom: 3px solid var(--line);
+  }
+  .steps li.active {
+    color: var(--ink);
+    font-weight: bold;
+    border-bottom-color: var(--ink);
+  }
+  .steps li.done {
+    color: var(--accent2);
+    border-bottom-color: var(--accent2);
+  }
+
   h2 {
     font-size: 1.15rem;
     border-left: 4px solid var(--ink);
@@ -53,10 +81,11 @@
     margin-bottom: 6px;
   }
   table {
-    width: 100%;
     border-collapse: collapse;
     margin: 12px 0 20px;
     font-size: 0.92rem;
+    min-width: 560px;
+    width: 100%;
   }
   th, td {
     border: 1px solid var(--line);
@@ -66,6 +95,24 @@
   th {
     background: #f0ede4;
   }
+  .table-scroll {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin: 0 -4px 4px;
+    padding: 0 4px;
+  }
+  .table-scroll:focus-visible {
+    outline: 3px solid var(--focus);
+    outline-offset: 2px;
+  }
+  caption {
+    text-align: left;
+    font-size: 0.82rem;
+    color: var(--muted);
+    margin-bottom: 4px;
+    caption-side: top;
+  }
+
   .case-box {
     background: #f6f4ee;
     border: 1px solid var(--line);
@@ -87,6 +134,47 @@
     color: var(--muted);
     margin: 8px 0 18px;
   }
+
+  /* Score commitment control */
+  fieldset.score-choice {
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 14px 16px 16px;
+    margin: 16px 0 20px;
+    background: #fff;
+  }
+  fieldset.score-choice legend {
+    font-weight: bold;
+    padding: 0 6px;
+    font-size: 0.95rem;
+  }
+  .score-choice .options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 8px;
+  }
+  .score-choice label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    min-height: 44px;
+  }
+  .score-choice input[type="radio"] {
+    width: 18px;
+    height: 18px;
+  }
+  .score-choice label:has(input:checked) {
+    background: var(--ink);
+    color: var(--paper);
+    border-color: var(--ink);
+  }
+
   button.reveal-btn {
     display: block;
     width: 100%;
@@ -99,6 +187,8 @@
     font-family: inherit;
     cursor: pointer;
     margin: 10px 0 4px;
+    min-height: 48px;
+    touch-action: manipulation;
   }
   button.reveal-btn:hover { opacity: 0.88; }
   button.reveal-btn:disabled {
@@ -106,19 +196,36 @@
     color: #888;
     cursor: not-allowed;
   }
+  button.reveal-btn:focus-visible,
+  .score-choice input:focus-visible,
+  textarea:focus-visible {
+    outline: 3px solid var(--focus);
+    outline-offset: 3px;
+  }
   .reveal-hint {
     font-size: 0.82rem;
     color: var(--muted);
     margin-bottom: 18px;
   }
+
   .reveal-content {
-    display: none;
     margin-top: 10px;
     padding: 16px;
     border-radius: 4px;
     border: 1px solid var(--line);
   }
-  .reveal-content.shown { display: block; }
+  .reveal-content[hidden] { display: none; }
+  @keyframes reveal-in {
+    from { opacity: 0; transform: translateY(0.5rem); }
+    to { opacity: 1; transform: none; }
+  }
+  .reveal-content:not([hidden]) {
+    animation: reveal-in 220ms ease-out;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .reveal-content:not([hidden]) { animation: none; }
+  }
+
   .sonnet-box {
     border-left: 5px solid #4a6fa5;
     background: #eef2f8;
@@ -140,6 +247,25 @@
     font-weight: bold;
     font-size: 1.3rem;
     margin: 4px 0 10px;
+  }
+  .takeaway {
+    font-size: 1.05rem;
+    font-weight: bold;
+    margin: 4px 0 12px;
+  }
+  .verbatim-label {
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--muted);
+    margin: 14px 0 4px;
+  }
+  blockquote.rationale {
+    margin: 0;
+    padding: 10px 14px;
+    border-left: 3px solid var(--line);
+    background: rgba(255,255,255,0.5);
+    font-size: 0.95rem;
   }
   .rule-box {
     background: #fbf3e6;
@@ -165,6 +291,11 @@
     padding: 16px;
     margin-top: 12px;
   }
+  .lo5-box label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 6px;
+  }
   textarea.local-notes {
     width: 100%;
     min-height: 70px;
@@ -175,6 +306,11 @@
     border-radius: 4px;
     resize: vertical;
   }
+  #privacyNote {
+    font-size: 0.82rem;
+    color: var(--muted);
+    margin: 6px 0 0;
+  }
   .footnote {
     font-size: 0.8rem;
     color: var(--muted);
@@ -182,7 +318,7 @@
     border-top: 1px solid var(--line);
     padding-top: 12px;
   }
-  .offline-badge {
+  .status-badge {
     display: inline-block;
     font-size: 0.72rem;
     color: var(--accent2);
@@ -192,6 +328,14 @@
     margin-left: 8px;
     vertical-align: middle;
   }
+
+  @media print {
+    body { background: #fff; color: #000; }
+    .wrap { max-width: none; padding: 0; }
+    button, .reveal-hint, .status-badge, textarea, .steps { display: none !important; }
+    .reveal-content { display: block !important; break-inside: avoid; }
+    table, .case-box, .score-passage, .rule-box { break-inside: avoid; }
+  }
 </style>
 </head>
 <body>
@@ -200,12 +344,21 @@
   <header class="page-head">
     <h1>Segment 4 — Application &amp; Implementation Planning</h1>
     <p>ELC 2026 · "When the AI Was Right: Human and AI Co-Author the Gold Standard"
-      <span class="offline-badge" id="offlineBadge">loaded — works without WiFi from here</span>
+      <span class="status-badge" id="statusBadge" role="status">ready — keep this tab open if WiFi drops</span>
     </p>
   </header>
 
-  <h2>Case</h2>
-  <div class="case-box">
+  <ol class="steps" id="stepIndicator" aria-hidden="true">
+    <li class="active" data-step="1">1. Score</li>
+    <li data-step="2">2. Rater 1</li>
+    <li data-step="3">3. Rater 2</li>
+    <li data-step="4">4. Your course</li>
+  </ol>
+
+  <main>
+
+  <h2 id="case-heading">Case</h2>
+  <div class="case-box" aria-labelledby="case-heading">
     <p><strong>Patient:</strong> 58-year-old office worker, 6 weeks post-op right total knee arthroplasty.</p>
     <p><strong>Exercises prescribed:</strong> (1) Seated knee extension, (2) Stationary bike,
     (3) Step-ups — deferred until quadriceps strength reaches 4/5 MMT, given fall risk on stairs
@@ -213,16 +366,22 @@
     lower demand level than step-ups.</p>
   </div>
 
-  <h3>Form 1 — Primary Impairments</h3>
-  <table>
-    <tr><th>#</th><th>Impairment</th><th>Region / Laterality</th><th>Measurement</th></tr>
-    <tr><td>1</td><td>Decreased knee flexion AROM</td><td>R knee</td><td>85° (goal 110°+)</td></tr>
-    <tr><td>2</td><td>Decreased quadriceps strength</td><td>R knee</td><td>3/5 MMT</td></tr>
-    <tr><td>3</td><td>Pain with ambulation</td><td>R knee</td><td>6/10 NPRS</td></tr>
-    <tr><td>4</td><td>Antalgic gait pattern</td><td>R lower extremity</td><td>Observed, &lt;100 ft tolerance</td></tr>
-  </table>
+  <h3 id="form1-heading">Form 1 — Primary Impairments</h3>
+  <div class="table-scroll" role="region" aria-labelledby="form1-heading" tabindex="0">
+    <table>
+      <caption>Scroll sideways on a narrow screen if needed.</caption>
+      <tr><th scope="col">#</th><th scope="col">Impairment</th><th scope="col">Region / Laterality</th><th scope="col">Measurement</th></tr>
+      <tr><td>1</td><td>Decreased knee flexion AROM</td><td>R knee</td><td>85° (goal 110°+)</td></tr>
+      <tr><td>2</td><td>Decreased quadriceps strength</td><td>R knee</td><td>3/5 MMT</td></tr>
+      <tr><td>3</td><td>Pain with ambulation</td><td>R knee</td><td>6/10 NPRS</td></tr>
+      <tr><td>4</td><td>Antalgic gait pattern</td><td>R lower extremity</td><td>Observed, &lt;100 ft tolerance</td></tr>
+    </table>
+  </div>
 
   <h2>Score This — Progression &amp; Regression Criteria</h2>
+  <p class="instruction">Reminder from Segment 1: 2 = Achieved, 1 = Almost There, 0 = Missing
+  Something. Score this section against that scale, on your own, before revealing anything
+  below.</p>
   <div class="score-passage">
     <p><strong>Progress when:</strong> knee flexion reaches 110°, quadriceps strength reaches
     4/5 MMT, the patient ambulates 100 feet without an antalgic gait, and pain during a
@@ -231,36 +390,60 @@
     5/10 for more than 24 hours after a session, the patient reports the knee giving way during
     stance, or the patient reports decreased confidence walking on uneven surfaces.</p>
   </div>
-  <p class="instruction">Score this yourself, silently, before revealing anything below. Compare
-  with your table. Then reveal the first rater together.</p>
 
-  <button class="reveal-btn" id="btnSonnet" onclick="revealSonnet()">
+  <fieldset class="score-choice">
+    <legend>Your score, before seeing either AI rater</legend>
+    <div class="options">
+      <label><input type="radio" name="score" value="0" onchange="onScoreCommitted()"> 0</label>
+      <label><input type="radio" name="score" value="1" onchange="onScoreCommitted()"> 1</label>
+      <label><input type="radio" name="score" value="2" onchange="onScoreCommitted()"> 2</label>
+      <label><input type="radio" name="score" value="unsure" onchange="onScoreCommitted()"> Not sure</label>
+    </div>
+  </fieldset>
+  <p class="instruction">When everyone at your table has committed to a score, reveal Rater 1
+  together — no need to wait for anyone at the front of the room.</p>
+
+  <button type="button" class="reveal-btn" id="btnSonnet"
+          aria-controls="sonnetBox" aria-expanded="false" disabled
+          onclick="revealSonnet()">
     Reveal Rater 1 — a rubric-only AI, fresh each time
   </button>
-  <p class="reveal-hint">Wait for the presenter's cue before tapping.</p>
+  <p class="reveal-hint" id="sonnetHint">Pick a score above to unlock this.</p>
 
-  <div class="reveal-content sonnet-box" id="sonnetBox">
-    <div class="rater-label">Rater 1 · rubric only, no memory of prior submissions</div>
+  <section class="reveal-content sonnet-box" id="sonnetBox" hidden tabindex="-1"
+            aria-labelledby="sonnetLabel">
+    <div class="rater-label" id="sonnetLabel">Rater 1 · rubric only, no memory of prior submissions</div>
     <div class="score-pill">Score: 2 / 2</div>
-    <p>"Progression criteria are specific and measurable... Regression criteria are equally
-    specific and clinically appropriate... <strong>Criteria are clearly linked to the targeted
-    impairments from Form 1.</strong>"</p>
-    <p class="instruction">Negotiate at your table. Where do you land, and why?</p>
-  </div>
+    <div class="verbatim-label">Actual AI rationale, shown verbatim</div>
+    <blockquote class="rationale">Progression criteria are specific and measurable...
+    Regression criteria are equally specific and clinically appropriate... Criteria are clearly
+    linked to the targeted impairments from Form 1.</blockquote>
+    <p class="instruction">Discuss at your table. Where do you land, and why? Reveal Rater 2
+    when your table is ready.</p>
+  </section>
 
-  <button class="reveal-btn" id="btnAtlas" onclick="revealAtlas()" disabled>
+  <button type="button" class="reveal-btn" id="btnAtlas" disabled
+          aria-controls="atlasBox" aria-expanded="false"
+          onclick="revealAtlas()">
     Reveal Rater 2 — an AI that keeps what it has been taught
   </button>
-  <p class="reveal-hint">Wait for the presenter's cue.</p>
+  <p class="reveal-hint" id="atlasHint">Reveal Rater 1 first.</p>
 
-  <div class="reveal-content atlas-box" id="atlasBox">
-    <div class="rater-label">Rater 2 · holds a standing rule from an earlier negotiation</div>
+  <section class="reveal-content atlas-box" id="atlasBox" hidden tabindex="-1"
+            aria-labelledby="atlasLabel">
+    <div class="rater-label" id="atlasLabel">Rater 2 · holds a standing rule from an earlier negotiation</div>
     <div class="score-pill">Score: 1 / 2</div>
-    <p>"The criteria are presented as a consolidated list — all progression criteria together,
-    then all regression criteria together. <strong>There is no exercise-specific linkage.</strong>
-    Per the c9-exercise-specific-linkage.md decision: consolidated/undifferentiated list = 1
-    ceiling, regardless of criteria quality... Per calibration: strong criteria + consolidated
-    format = 1 (format rule is binding)."</p>
+
+    <p class="takeaway">Same criteria. Different score.</p>
+    <p>This rater applied a rule negotiated on an earlier submission, requiring every criterion
+    to be linked to a specific exercise — not just to an impairment.</p>
+
+    <div class="verbatim-label">Actual AI rationale, shown verbatim</div>
+    <blockquote class="rationale">The criteria are presented as a consolidated list — all
+    progression criteria together, then all regression criteria together. There is no
+    exercise-specific linkage. Per the c9-exercise-specific-linkage.md decision:
+    consolidated/undifferentiated list = 1 ceiling, regardless of criteria quality... Per
+    calibration: strong criteria + consolidated format = 1 (format rule is binding).</blockquote>
 
     <div class="rule-box">
       <strong>The standing rule, in full</strong> — negotiated on an earlier submission,
@@ -277,41 +460,74 @@
 7:47 PM (11 min later) — Next submission graded; rule already cited by name
    → cited again in 14 of the next 22 submissions, over the following 2.5 days
 
-Rater 1, given the same rubric fresh each time, has no equivalent timeline.
-Every submission starts at 7:33 PM.
+The stateless rater begins each submission without the prior decision.
     </div>
+  </section>
+
+  <h2 id="lo5-heading">One Criterion in My Own Course</h2>
+  <div class="lo5-box" aria-labelledby="lo5-heading">
+    <label for="courseCriterion">Name one criterion in your own teaching where a stored,
+    negotiated rule — like the one above — could resolve a disagreement you currently
+    re-litigate every time it comes up.</label>
+    <textarea id="courseCriterion" class="local-notes" autocomplete="off"
+              aria-describedby="privacyNote"
+              placeholder="Optional. For your own thinking only."></textarea>
+    <p id="privacyNote">This page does not submit or store what you type here.</p>
   </div>
 
-  <h2>One Criterion in My Own Course</h2>
-  <div class="lo5-box">
-    <p>Name one criterion in your own teaching where a stored, negotiated rule — like the one
-    above — could resolve a disagreement you currently re-litigate every time it comes up.
-    Jot it below if it helps you think; nothing here is saved or sent anywhere.</p>
-    <textarea class="local-notes" placeholder="This stays on your own device only."></textarea>
-  </div>
+  </main>
 
   <div class="footnote">
-    Case and responses on this page are purpose-written for this session; no real student
-    submissions appear here. Both raters above were run on identical rubric, model, and text —
-    the only variable is whether the rater keeps what it has been taught.
+    The case above was constructed for this session; no real student submissions appear here.
+    The AI rationales shown are verbatim outputs generated from that case, unedited. Both
+    raters ran on the same model, the same rubric, and the same case text — the only
+    controlled difference is whether the rater holds a rule negotiated on a prior submission.
   </div>
 
 </div>
 
 <script>
+  var stepEls = document.querySelectorAll('#stepIndicator li');
+
+  function setStep(n) {
+    stepEls.forEach(function (li) {
+      var s = parseInt(li.dataset.step, 10);
+      li.classList.toggle('active', s === n);
+      li.classList.toggle('done', s < n);
+    });
+  }
+
+  function onScoreCommitted() {
+    var btn = document.getElementById('btnSonnet');
+    btn.disabled = false;
+    document.getElementById('sonnetHint').textContent =
+      'When your table is ready, reveal together — no need to wait for a cue.';
+    setStep(2);
+  }
+
+  function revealBox(boxId, btnId, nextStep) {
+    var box = document.getElementById(boxId);
+    var btn = document.getElementById(btnId);
+    box.hidden = false;
+    btn.setAttribute('aria-expanded', 'true');
+    btn.disabled = true;
+    var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    box.focus({ preventScroll: true });
+    box.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
+    if (nextStep) { setStep(nextStep); }
+  }
+
   function revealSonnet() {
-    document.getElementById('sonnetBox').classList.add('shown');
-    document.getElementById('btnSonnet').disabled = true;
-    document.getElementById('btnAtlas').disabled = false;
+    revealBox('sonnetBox', 'btnSonnet', 3);
+    var atlasBtn = document.getElementById('btnAtlas');
+    atlasBtn.disabled = false;
+    document.getElementById('atlasHint').textContent =
+      'When your table has discussed, reveal together — no need to wait for a cue.';
   }
+
   function revealAtlas() {
-    document.getElementById('atlasBox').classList.add('shown');
-    document.getElementById('btnAtlas').disabled = true;
+    revealBox('atlasBox', 'btnAtlas', 4);
   }
-  // Confirms to the user the page is fully loaded and will keep working without a connection.
-  window.addEventListener('load', function () {
-    document.getElementById('offlineBadge').style.display = 'inline-block';
-  });
 </script>
 
 </body>
