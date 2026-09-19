@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ELC 2026 — Segment 4 Hands-On</title>
+<style>
+  :root {
+    --ink: #1a1a2e;
+    --paper: #fdfcf9;
+    --line: #d8d3c8;
+    --accent: #8b3a3a;
+    --accent2: #2f5233;
+    --muted: #6b6b6b;
+    --highlight: #fff8e1;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: Georgia, 'Times New Roman', serif;
+    background: var(--paper);
+    color: var(--ink);
+    margin: 0;
+    padding: 0;
+    line-height: 1.55;
+  }
+  .wrap {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 24px 20px 80px;
+  }
+  header.page-head {
+    border-bottom: 3px solid var(--ink);
+    padding-bottom: 12px;
+    margin-bottom: 24px;
+  }
+  header.page-head h1 {
+    font-size: 1.4rem;
+    margin: 0 0 4px;
+  }
+  header.page-head p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.95rem;
+  }
+  h2 {
+    font-size: 1.15rem;
+    border-left: 4px solid var(--ink);
+    padding-left: 10px;
+    margin-top: 32px;
+  }
+  h3 {
+    font-size: 1.0rem;
+    margin-bottom: 6px;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0 20px;
+    font-size: 0.92rem;
+  }
+  th, td {
+    border: 1px solid var(--line);
+    padding: 6px 10px;
+    text-align: left;
+  }
+  th {
+    background: #f0ede4;
+  }
+  .case-box {
+    background: #f6f4ee;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 14px 16px;
+    margin: 14px 0;
+  }
+  .score-passage {
+    background: var(--highlight);
+    border: 1px solid #e0d090;
+    border-left: 5px solid #c9a227;
+    border-radius: 3px;
+    padding: 16px 18px;
+    margin: 14px 0;
+    font-size: 1.02rem;
+  }
+  .instruction {
+    font-style: italic;
+    color: var(--muted);
+    margin: 8px 0 18px;
+  }
+  button.reveal-btn {
+    display: block;
+    width: 100%;
+    background: var(--ink);
+    color: var(--paper);
+    border: none;
+    border-radius: 4px;
+    padding: 14px 16px;
+    font-size: 1.0rem;
+    font-family: inherit;
+    cursor: pointer;
+    margin: 10px 0 4px;
+  }
+  button.reveal-btn:hover { opacity: 0.88; }
+  button.reveal-btn:disabled {
+    background: #ccc;
+    color: #888;
+    cursor: not-allowed;
+  }
+  .reveal-hint {
+    font-size: 0.82rem;
+    color: var(--muted);
+    margin-bottom: 18px;
+  }
+  .reveal-content {
+    display: none;
+    margin-top: 10px;
+    padding: 16px;
+    border-radius: 4px;
+    border: 1px solid var(--line);
+  }
+  .reveal-content.shown { display: block; }
+  .sonnet-box {
+    border-left: 5px solid #4a6fa5;
+    background: #eef2f8;
+  }
+  .atlas-box {
+    border-left: 5px solid var(--accent2);
+    background: #eef4ee;
+  }
+  .rater-label {
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 0.78rem;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+  .score-pill {
+    display: inline-block;
+    font-weight: bold;
+    font-size: 1.3rem;
+    margin: 4px 0 10px;
+  }
+  .rule-box {
+    background: #fbf3e6;
+    border: 1px dashed #c9a227;
+    border-radius: 4px;
+    padding: 12px 14px;
+    margin-top: 12px;
+    font-size: 0.92rem;
+  }
+  .timeline {
+    font-family: 'Courier New', monospace;
+    font-size: 0.88rem;
+    background: #f0ede4;
+    border-radius: 4px;
+    padding: 12px 14px;
+    margin-top: 10px;
+    white-space: pre-wrap;
+  }
+  .lo5-box {
+    background: #f6f4ee;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 16px;
+    margin-top: 12px;
+  }
+  textarea.local-notes {
+    width: 100%;
+    min-height: 70px;
+    font-family: inherit;
+    font-size: 0.95rem;
+    padding: 8px;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    resize: vertical;
+  }
+  .footnote {
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin-top: 60px;
+    border-top: 1px solid var(--line);
+    padding-top: 12px;
+  }
+  .offline-badge {
+    display: inline-block;
+    font-size: 0.72rem;
+    color: var(--accent2);
+    border: 1px solid var(--accent2);
+    border-radius: 10px;
+    padding: 2px 8px;
+    margin-left: 8px;
+    vertical-align: middle;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="page-head">
+    <h1>Segment 4 — Application &amp; Implementation Planning</h1>
+    <p>ELC 2026 · "When the AI Was Right: Human and AI Co-Author the Gold Standard"
+      <span class="offline-badge" id="offlineBadge">loaded — works without WiFi from here</span>
+    </p>
+  </header>
+
+  <h2>Case</h2>
+  <div class="case-box">
+    <p><strong>Patient:</strong> 58-year-old office worker, 6 weeks post-op right total knee arthroplasty.</p>
+    <p><strong>Exercises prescribed:</strong> (1) Seated knee extension, (2) Stationary bike,
+    (3) Step-ups — deferred until quadriceps strength reaches 4/5 MMT, given fall risk on stairs
+    at current strength level, (4) Standing mini-squats — also targets quadriceps strength, at a
+    lower demand level than step-ups.</p>
+  </div>
+
+  <h3>Form 1 — Primary Impairments</h3>
+  <table>
+    <tr><th>#</th><th>Impairment</th><th>Region / Laterality</th><th>Measurement</th></tr>
+    <tr><td>1</td><td>Decreased knee flexion AROM</td><td>R knee</td><td>85° (goal 110°+)</td></tr>
+    <tr><td>2</td><td>Decreased quadriceps strength</td><td>R knee</td><td>3/5 MMT</td></tr>
+    <tr><td>3</td><td>Pain with ambulation</td><td>R knee</td><td>6/10 NPRS</td></tr>
+    <tr><td>4</td><td>Antalgic gait pattern</td><td>R lower extremity</td><td>Observed, &lt;100 ft tolerance</td></tr>
+  </table>
+
+  <h2>Score This — Progression &amp; Regression Criteria</h2>
+  <div class="score-passage">
+    <p><strong>Progress when:</strong> knee flexion reaches 110°, quadriceps strength reaches
+    4/5 MMT, the patient ambulates 100 feet without an antalgic gait, and pain during a
+    10-minute walk stays at or below 3/10.</p>
+    <p><strong>Regress when:</strong> joint-line girth increases by more than 1 cm, pain exceeds
+    5/10 for more than 24 hours after a session, the patient reports the knee giving way during
+    stance, or the patient reports decreased confidence walking on uneven surfaces.</p>
+  </div>
+  <p class="instruction">Score this yourself, silently, before revealing anything below. Compare
+  with your table. Then reveal the first rater together.</p>
+
+  <button class="reveal-btn" id="btnSonnet" onclick="revealSonnet()">
+    Reveal Rater 1 — a rubric-only AI, fresh each time
+  </button>
+  <p class="reveal-hint">Wait for the presenter's cue before tapping.</p>
+
+  <div class="reveal-content sonnet-box" id="sonnetBox">
+    <div class="rater-label">Rater 1 · rubric only, no memory of prior submissions</div>
+    <div class="score-pill">Score: 2 / 2</div>
+    <p>"Progression criteria are specific and measurable... Regression criteria are equally
+    specific and clinically appropriate... <strong>Criteria are clearly linked to the targeted
+    impairments from Form 1.</strong>"</p>
+    <p class="instruction">Negotiate at your table. Where do you land, and why?</p>
+  </div>
+
+  <button class="reveal-btn" id="btnAtlas" onclick="revealAtlas()" disabled>
+    Reveal Rater 2 — an AI that keeps what it has been taught
+  </button>
+  <p class="reveal-hint">Wait for the presenter's cue.</p>
+
+  <div class="reveal-content atlas-box" id="atlasBox">
+    <div class="rater-label">Rater 2 · holds a standing rule from an earlier negotiation</div>
+    <div class="score-pill">Score: 1 / 2</div>
+    <p>"The criteria are presented as a consolidated list — all progression criteria together,
+    then all regression criteria together. <strong>There is no exercise-specific linkage.</strong>
+    Per the c9-exercise-specific-linkage.md decision: consolidated/undifferentiated list = 1
+    ceiling, regardless of criteria quality... Per calibration: strong criteria + consolidated
+    format = 1 (format rule is binding)."</p>
+
+    <div class="rule-box">
+      <strong>The standing rule, in full</strong> — negotiated on an earlier submission,
+      then applied here without re-negotiation:<br><br>
+      "Progression and regression criteria must be linked to the specific exercises they govern.
+      A consolidated list of criteria — all progress criteria first, then all regress criteria —
+      without exercise-specific attribution does not meet the standard, even when every
+      individual criterion is excellent."
+    </div>
+
+    <div class="timeline">
+7:33 PM — Faculty rater and this agent resolve a different, disputed criterion
+7:36 PM — Resolution stored as a standing rule
+7:47 PM (11 min later) — Next submission graded; rule already cited by name
+   → cited again in 14 of the next 22 submissions, over the following 2.5 days
+
+Rater 1, given the same rubric fresh each time, has no equivalent timeline.
+Every submission starts at 7:33 PM.
+    </div>
+  </div>
+
+  <h2>One Criterion in My Own Course</h2>
+  <div class="lo5-box">
+    <p>Name one criterion in your own teaching where a stored, negotiated rule — like the one
+    above — could resolve a disagreement you currently re-litigate every time it comes up.
+    Jot it below if it helps you think; nothing here is saved or sent anywhere.</p>
+    <textarea class="local-notes" placeholder="This stays on your own device only."></textarea>
+  </div>
+
+  <div class="footnote">
+    Case and responses on this page are purpose-written for this session; no real student
+    submissions appear here. Both raters above were run on identical rubric, model, and text —
+    the only variable is whether the rater keeps what it has been taught.
+  </div>
+
+</div>
+
+<script>
+  function revealSonnet() {
+    document.getElementById('sonnetBox').classList.add('shown');
+    document.getElementById('btnSonnet').disabled = true;
+    document.getElementById('btnAtlas').disabled = false;
+  }
+  function revealAtlas() {
+    document.getElementById('atlasBox').classList.add('shown');
+    document.getElementById('btnAtlas').disabled = true;
+  }
+  // Confirms to the user the page is fully loaded and will keep working without a connection.
+  window.addEventListener('load', function () {
+    document.getElementById('offlineBadge').style.display = 'inline-block';
+  });
+</script>
+
+</body>
+</html>
